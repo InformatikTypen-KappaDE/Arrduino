@@ -4,6 +4,8 @@ int LedGreen = 9;
 int buttonRed = 11;
 int buttonGreen = 12;
 
+bool stateRed;
+bool stateGreen;
 
 void setup() {
   Serial.begin(9600);
@@ -14,6 +16,6 @@ pinMode (buttonGreen, INPUT_PULLUP);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  stateRed;
 
 }
