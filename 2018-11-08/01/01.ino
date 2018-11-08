@@ -30,8 +30,21 @@ randomSeed(analogRead(0));
 }
 
 void loop() {
-  stateRed = digitalRead(buttonRed);
-  stateGreen = digitalRead(buttonGreen);
+
+  if (digitalRead(buttonRed) == LOW) {
+    stateRed = 1;
+    } else {
+    stateRed = 0;  
+    }
+
+  if (digitalRead(buttonGreen) == LOW) {
+    stateGreen = 1;
+    } else {
+    stateGreen = 0;  
+    }
+    
+  //stateRed == digitalRead(buttonRed);
+  //stateGreen == digitalRead(buttonGreen);
   randomNumber = random(5);
   randomLED = random(400);
   float ledOn = stateLedRed+stateLedGreen;
@@ -43,8 +56,7 @@ if (ledOn < 1) {
     }
     else {
     stateLedGreen=1;
-    }
-    
+    } 
   }
   while (digitalRead(buttonRed) == LOW) {
     stateLedRed = 0;
@@ -57,6 +69,12 @@ if (ledOn < 1) {
 
     scoreLedButton = scoreTime();
     }
+/*
+scoreLedResult = scoreLedButton-scoreLedOn;
+Serial.println(scoreLedResult); 
+*/
+
+Serial.println(stateRed);
   
 digitalWrite(LedRed, stateLedRed);
 digitalWrite(LedGreen, stateLedGreen);
