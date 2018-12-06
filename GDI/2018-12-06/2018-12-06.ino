@@ -1,5 +1,5 @@
 /*
- * Gruppe 3
+ * Gruppe 2
  * Richard Renziehausen 4514896
  * Zhida Chen 4515140
  * Benedikt Staudacher 4514770
