@@ -1,3 +1,13 @@
+/*
+   Gruppe 2
+   Richard Renziehausen 4514896
+   Zhida Chen 4515140
+   Benedikt Staudacher 4514770
+   Milad Aydin 4526000
+   Nicola Stache 4509823
+
+   Wir haben alle Floatvariablen durch Integers ersetzt, da dies Speicher spart. Somit konnten wir die Messwertanzahl verdoppeln ohne mehr Speicher zu verbrauchen.
+*/
 #include <dht.h>
 const int DHT11_PIN = 7;
 const int data_capacity = 20;
@@ -15,7 +25,7 @@ struct data_s {
 };
 
 //kommen nur ganze Zahlen raus deswegen int anstatt float
-int value2lux(float value) { 
+int value2lux(int value) {
   if (value > 400) {
     return 0.0;
   } else if (value > 350) {
@@ -39,21 +49,21 @@ int value2lux(float value) {
     Beachten Sie "Call-By-Reference" für die Sruktur.
 */
 void readSensorData(struct data_s* data) {
-  // Das Auslesen von Temperature oder Liftfeuchtigkeit benötigt etwa 
-  // 250 Millisekunden! Die ausgelesenen Werte können bis zu 2 
+  // Das Auslesen von Temperature oder Liftfeuchtigkeit benötigt etwa
+  // 250 Millisekunden! Die ausgelesenen Werte können bis zu 2
   // Sekunden alt sein (es ist ein sehr langsamer Sensor).
   int chk = DHT.read11(DHT11_PIN);
-  if (DHTLIB_OK==chk) {
+  if (DHTLIB_OK == chk) {
     data->temp = DHT.temperature;  // in Grad Celsius
     data->humidity = DHT.humidity; // in % relative Luftfeuchtigkeit.
   } else {
     data->temp = 0;
-    data->humidity = 0;    
+    data->humidity = 0;
   };
-  data->brightness = value2lux(analogRead(LDR_PIN)); // in Lux 
+  data->brightness = value2lux(analogRead(LDR_PIN)); // in Lux
 }
 
-/* Wir haben in maximal Platz für 120 Byte. In unserem Fall für 10 
+/* Wir haben in maximal Platz für 120 Byte. In unserem Fall für 10
    Datensätze. Diese werden in data_memory gespeichert.
 */
 struct data_s data_memory[data_capacity];
@@ -101,28 +111,28 @@ void loop()
     Serial.println("====================");
     if (maxLimit) {                           //sobald insgesamt mehr als 20 Werte gemessen wurden werden immer die letzten 20 ausgegeben
       for (int i = 0; i < data_capacity; i++) {
-      Serial.println("--------------------");
-      Serial.print(  "-    Eintrag ");
-      Serial.print(i);
-      Serial.print(" - ");
-      //Serial.print(bauer);
-      Serial.println(" -");
-      Serial.println("--------------------");
-      print_all_data_of_index(i);
-    }
+        Serial.println("--------------------");
+        Serial.print(  "-    Eintrag ");
+        Serial.print(i);
+        Serial.print(" - ");
+        Serial.print(bbbb);       //Anzeigen wie oft überschrieben wurde
+        Serial.println(" -");
+        Serial.println("--------------------");
+        print_all_data_of_index(i);
+      }
     } else {
       for (int i = 0; i < data_num; i++) {
-      Serial.println("--------------------");
-      Serial.print(  "-    Eintrag ");
-      Serial.print(i);
-      Serial.println("     -");
-      Serial.println("--------------------");
-      print_all_data_of_index(i);
-    }
+        Serial.println("--------------------");
+        Serial.print(  "-    Eintrag ");
+        Serial.print(i);
+        Serial.println("     -");
+        Serial.println("--------------------");
+        print_all_data_of_index(i);
+      }
     }
     data_num = 0; // löschen
-    maxLimit = false;
-    bbbb = 1;
+    maxLimit = false;  //Reset
+    bbbb = 1; //Reset
   }
   // Falls die Zeit abgelaufen ist, wird ein neuer Datensatz eingelesen.
   if (millis() >= nextreadingtime) {
@@ -134,7 +144,7 @@ void loop()
     } else {
       data_num = 0;   //reset sobald maximale speichermenge überschritten
       maxLimit = true;
-      bbbb +=1;
+      bbbb += 1; //Zählung der Durchläufe
     }
   }
   lastButtonState = buttonState;
